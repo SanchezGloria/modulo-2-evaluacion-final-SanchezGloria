@@ -1,0 +1,60 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+/* HEADER */
+
+.page__header {
+  height: 35vh;
+  background: lightsteelblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page__header--title {
+  font-family: 'Barrio', cursive;
+  margin: 1em;
+  text-align: center;
+}
+
+.page__header--form {
+  margin: 0 1em 0 1em;
+  text-align: center;
+}
+.page__header--button {
+  height: 50px;
+  width: 50px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-left: 20px;
+  font-family: 'Cabin Sketch', cursive;
+  text-transform: uppercase;
+  font-size: 1.5em;
+}
+
+.page__header--input {
+  border: 2px solid black;
+  height: 2em;
+}
+
+/* ASIDE */
+
+.page__aside {
+  width: 40%;
+  height: 100vh;
+  background: lavenderblush;
+}
+
+.page__aside--title {
+  font-family: 'Barrio', cursive;
+  text-align: center;
+  padding: 30px 0px 10px 0px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-bottom: 5px double black;
+}

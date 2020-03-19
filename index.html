@@ -3,22 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css?family=Barrio|Cabin+Sketch|Diplomata|Londrina+Outline|Londrina+Shadow|Thasadith|Vast+Shadow&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles/style.css" />
     <title>Buscador de series</title>
   </head>
   <body>
     <header class="page__header">
       <h1 class="page__header--title">buscador de series</h1>
-      <input class="page__header--input" type="text" value="" />
-      <button class="page__header--button">go</button>
-      <aside class="page__aside">
-        <h2>mi lista de favoritos</h2>
-        <ul class="page__aside--favlist"></ul>
-      </aside>
-      <main class="page__main">
-        <ul class="page__main--list"></ul>
-      </main>
+      <form class="page__header--form" action="">
+        <input class="page__header--input" type="text" value="" />
+        <button class="js-btn page__header--button">go</button>
+      </form>
     </header>
+    <aside class="page__aside">
+      <h2 class="page__aside--title">mi lista de favoritos</h2>
+      <ul class="page__aside--favlist"></ul>
+    </aside>
+    <main class="page__main">
+      <ul class="page__main--list"></ul>
+    </main>
+
     <script src="./js/main.js"></script>
   </body>
 </html>

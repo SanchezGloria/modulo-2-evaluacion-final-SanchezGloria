@@ -8,8 +8,18 @@ const resultList = document.querySelector('.js-result-list');
 const favList = document.querySelector('.js-favs');
 let seriesArray = [];
 let favoritesArray = [];
+let favObject = {};
 let idSerie;
-// resultList.innerHTML = 'hola';
+
+// COGER DEL LOCAL STORAGE
+
+// const getFromLocalStorage = () => {
+//   const favoritesSaved = JSON.parse(localStorage.getItem('favorites'));
+//   if (favoritesSaved !== null) {
+// favoritesArray = favoritesSaved;
+//   }
+// };
+
 // HACEMOS EL FETCH EN EL API PARA TENER NUESTRA LISTA DE SERIES
 
 function getFromApi(ev) {
@@ -37,44 +47,54 @@ function getFromApi(ev) {
 
 function paintResultSeries() {
   console.log('PAINT RESULTS', seriesArray);
-  const series = document.querySelectorAll('.js-item-result');
+  // const series = document.querySelectorAll('.js-item-result');
   resultList.innerHTML = '';
   for (const show of seriesArray) {
-    console.log(show.show.image.original);
-    // resultList.innerHTML += show.show.name;
+    // console.log(show.show.image.original);
     let htmlCode = `<li class="js-item-result" id="${show.show.id}">`;
     htmlCode += `<h3 class="js-item-result-title">${show.show.name}</h3>`;
-    htmlCode += `<img class="js-item-result-img" src="${show.show.image.medium}" alt="${show.show.name}"></li>`;
-    // // console.log('SHOW', results);
+    if (show.show.image === null) {
+      htmlCode += `<img class="js-item-result-img" src="https://via.placeholder.com/210x295/ffffff/666666/?" alt="${show.show.name}"></li>`;
+    } else {
+      htmlCode += `<img class="js-item-result-img" src="${show.show.image.medium}" alt="${show.show.name}">`;
+    }
+    htmlCode += `</li>`;
     resultList.innerHTML += htmlCode;
-    selectFavorite();
   }
+  selectFavorite();
 
   // selectSerie();
-  // seriesArray = [];
-  // for (const show of data) {
-  // }
 }
 
 function selectSerie(ev) {
-  console.log('FUERA DEL FOR currentTarget', ev.currentTarget);
+  console.log('currentTarget', ev.currentTarget);
   console.log(ev.currentTarget.id);
-  // console.log('FUERA DEL FOR target', ev.Target);
+  const clickedId = ev.currentTarget.id;
   ev.currentTarget.classList.toggle('js-selected');
-  const title = document.querySelector('.js-item-result-title');
-  const img = document.querySelector('.js-item-result-img');
-  console.log(img);
 
-  favItemObject = {
-    favname: title.innerHTML,
-    favimg: img.scr
-  };
-  console.log(favItemObject.favimg);
-  let index = favoritesArray.indexOf(ev.currentTarget.id);
+  for (const show of seriesArray) {
+    favObject.favname = show.show.name;
+    favObject.favimg = show.show.image.medium;
+    favObject.id = show.show.id;
+    console.log(favObject);
+  }
+  // const img = ev.currentTarget.querySelector('.js-item-result-img');
+
+  // ESTO LO TENGO QUE SACAR DEL SERIESARRAY
+
+  // favname: title.innerHTML,
+  // favimg: img.src
+
+  console.log(favObject);
+
+  let index = favoritesArray.findIndex(serie => serie.id === favObject.id);
   if (index === -1) {
-    favoritesArray.push(favItemObject);
-    console.log(favoritesArray);
-    // paintFavorites();
+    favoritesArray.push(favObject);
+
+    paintFavorites();
+
+    // let index = favoritesArray.indexOf(favObject.id);
+    // console.log(favoritesArray);
     // favList.innerHTML = '';
     // let htmlCode = `<li class="js-item-result" id="${ev.currentTarget.id}">`;
     // htmlCode += `<h3 class="js-item-result-title">${ev.currentTarget.firstElementChild.textContent}</h3>`;
@@ -87,27 +107,22 @@ function selectSerie(ev) {
     favoritesArray.splice(index, 1);
   }
   console.log(favoritesArray);
-  // for (const show of seriesArray) {
-  //   // idSerie = show.show.id;
-  //   // const series = document.getElementById(`${show.show.id}`);
-  //   // // console.log(idSerie);
-  // }
 }
 
 function paintFavorites() {
+  // console.log(favoritesArray);
   // favList.innerHTML = '';
-  // for (const show of seriesArray) {
-  //   let htmlCode = `<li class="js-item-result" id="${show.show.id}">`;
-  //   htmlCode += `<h3 class="js-item-result-title">${show.show.name}</h3>`;
-  //   htmlCode += `<img class="js-item-result-img" src="${show.show.image.medium}" alt="${show.show.name}"></li>`;
-  //   // // console.log('SHOW', results);
-  //   favList.innerHTML += htmlCode;
-  // }
+  for (const item of favoritesArray) {
+    let htmlCode = `<li class="js-item-result">`;
+    htmlCode += `<h3 class="js-item-result-title">${item.favname}</h3>`;
+    htmlCode += `<img class="js-item-result-img" src="${item.favimg}" alt="${item.favname}"></li>`;
+    favList.innerHTML += htmlCode;
+  }
 }
 
 function selectFavorite() {
   const series = document.querySelectorAll('.js-item-result');
-  console.log(series);
+
   for (const serie of series) {
     serie.addEventListener('click', selectSerie);
   }
@@ -119,4 +134,10 @@ function selectFavorite() {
 
 buttonElement.addEventListener('click', getFromApi);
 
-// getFromApi();
+// GUARDAR EN EL LOCAL STORAGE
+
+const setInLocalStorage = () => {
+  localStorage.setItem('favorites', JSON.stringify(favoritesArray));
+};
+
+// setInLocalStorage();

@@ -42,6 +42,12 @@
   height: 2em;
 }
 
+/* MAIN */
+
+.page__main {
+  display: flex;
+}
+
 /* ASIDE */
 
 .page__aside {
@@ -57,4 +63,43 @@
   margin-left: 10px;
   margin-right: 10px;
   border-bottom: 5px double black;
+}
+
+.page__section {
+  width: 60%;
+  /* height: 100vh;
+  background: lightpink; */
+}
+
+.js-item-result {
+  margin: 1em;
+  list-style-type: none;
+  text-align: center;
+  cursor: pointer;
+}
+.js-item-result-title {
+  margin-bottom: 1em;
+  font-family: 'Cabin Sketch', cursive;
+  font-size: 1.25em;
+}
+
+/* CLASE PARA SELECCIONAR EN JS */
+
+.js-selected {
+  background: #69306d;
+}
+
+/* MEDIA QUERIES */
+
+@media all and (min-width: 786px) {
+  .page__main--list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media all and (min-width: 1200px) {
+  .page__main--list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }

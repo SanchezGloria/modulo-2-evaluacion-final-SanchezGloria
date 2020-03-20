@@ -11,16 +11,18 @@
     <header class="page__header">
       <h1 class="page__header--title">buscador de series</h1>
       <form class="page__header--form" action="">
-        <input class="page__header--input" type="text" value="" />
+        <input class="js-input page__header--input" type="text" value="" />
         <button class="js-btn page__header--button">go</button>
       </form>
     </header>
-    <aside class="page__aside">
-      <h2 class="page__aside--title">mi lista de favoritos</h2>
-      <ul class="page__aside--favlist"></ul>
-    </aside>
     <main class="page__main">
-      <ul class="page__main--list"></ul>
+      <aside class="page__aside">
+        <h2 class="page__aside--title">mi lista de favoritos</h2>
+        <ul class="js-favs page__aside--favlist"></ul>
+      </aside>
+      <section class="page__section">
+        <ul class="js-result-list page__main--list"></ul>
+      </section>
     </main>
 
     <script src="./js/main.js"></script>

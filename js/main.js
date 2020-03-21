@@ -70,31 +70,26 @@ function paintResultSeries() {
 
 function selectSerie(ev) {
   console.log('currentTarget', ev.currentTarget);
-  console.log(ev.currentTarget.id);
-  const clickedId = ev.currentTarget.id;
+  console.log(ev.currentTarget.id, seriesArray[0].show.id);
+  const clickedId = parseInt(ev.currentTarget.id);
   ev.currentTarget.classList.toggle('js-selected');
-  // tengo que parsear porque hay dos iguales
-  // funciona regular
-  for (const show of seriesArray) {
-    if (show.show.id == clickedId) {
+
+  // se me añade la última y se acumula en cada click la anterior más la siguiente
+  let favindex = favoritesArray.findIndex(serie => serie.id === clickedId);
+  if (favindex === -1) {
+    for (const show of seriesArray) {
       favObject.favname = show.show.name;
       favObject.favimg = show.show.image.medium;
       favObject.id = show.show.id;
       console.log(favObject);
     }
-  }
-  // const img = ev.currentTarget.querySelector('.js-item-result-img');
 
-  // ESTO LO TENGO QUE SACAR DEL SERIESARRAY
-
-  // favname: title.innerHTML,
-  // favimg: img.src
-
-  console.log(favObject);
-
-  let index = favoritesArray.findIndex(serie => serie.id === favObject.id);
-  if (index === -1) {
     favoritesArray.push(favObject);
+    // const img = ev.currentTarget.querySelector('.js-item-result-img');
+
+    // ESTO LO TENGO QUE SACAR DEL SERIESARRAY
+
+    console.log(favObject);
 
     paintFavorites();
 
@@ -109,7 +104,7 @@ function selectSerie(ev) {
 
     // favList.innerHTML += show.show.name;
   } else {
-    favoritesArray.splice(index, 1);
+    favoritesArray.splice(favindex, 1);
   }
   console.log(favoritesArray);
 }

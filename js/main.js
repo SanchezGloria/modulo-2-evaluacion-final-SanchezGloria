@@ -76,8 +76,9 @@ function selectSerie(ev) {
 
   // se me añade la última y se acumula en cada click la anterior más la siguiente
   let serieIndex = seriesArray.findIndex(serie => serie.show.id === clickedId);
-  let favindex = favoritesArray.findIndex(serie => serie.id === clickedId);
-  if (favindex === -1) {
+  let favIndex = favoritesArray.findIndex(serie => serie.id === clickedId);
+  if (favIndex === -1) {
+    let favObject = {};
     favObject.favname = seriesArray[serieIndex].show.name;
     if (seriesArray[serieIndex].show.image === null) {
       favObject.favimg = 'https://via.placeholder.com/210x295/ffffff/666666/?';
@@ -86,14 +87,15 @@ function selectSerie(ev) {
     }
     favObject.id = seriesArray[serieIndex].show.id;
     favoritesArray.push(favObject);
-    console.log(favObject);
+
     paintFavorite(favObject);
   } else {
-    // LO SACA DEL ARRAY PERO AÚN ESTÁ PINTADO EN FAVORITOS. HAY QUE BORRARLO
-
-    favoritesArray.splice(favindex, 1);
+    let favorite = favoritesArray[favIndex];
+    favoritesArray.splice(favIndex, 1);
+    removeFavorite(favorite);
   }
   console.log(favoritesArray);
+  setInLocalStorage();
 }
 
 function paintFavorite(item) {
@@ -101,8 +103,14 @@ function paintFavorite(item) {
   // favList.innerHTML = '';
   let htmlCode = `<li class="js-item-result" id="${'fav' + item.id}">`;
   htmlCode += `<h3 class="js-item-result-title">${item.favname}</h3>`;
-  htmlCode += `<img class="js-item-result-img" src="${item.favimg}" alt="${item.favname}"></li>`;
+  htmlCode += `<img class="js-item-result-img" src="${item.favimg}" alt="${item.name}">`;
+  htmlCode += `</li>`;
   favList.innerHTML += htmlCode;
+}
+
+function removeFavorite(item) {
+  let eraseId = document.getElementById('fav' + item.id);
+  favList.removeChild(eraseId);
 }
 
 function selectFavorite() {

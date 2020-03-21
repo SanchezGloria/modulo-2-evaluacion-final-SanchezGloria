@@ -17,7 +17,9 @@ let idSerie;
 //   const favoritesSaved = JSON.parse(localStorage.getItem('favorites'));
 //   if (favoritesSaved !== null) {
 // favoritesArray = favoritesSaved;
-//   }
+// volver a pintar
+//   }else{
+// getFromApi();
 // };
 
 // HACEMOS EL FETCH EN EL API PARA TENER NUESTRA LISTA DE SERIES
@@ -71,12 +73,15 @@ function selectSerie(ev) {
   console.log(ev.currentTarget.id);
   const clickedId = ev.currentTarget.id;
   ev.currentTarget.classList.toggle('js-selected');
-
+  // tengo que parsear porque hay dos iguales
+  // funciona regular
   for (const show of seriesArray) {
-    favObject.favname = show.show.name;
-    favObject.favimg = show.show.image.medium;
-    favObject.id = show.show.id;
-    console.log(favObject);
+    if (show.show.id == clickedId) {
+      favObject.favname = show.show.name;
+      favObject.favimg = show.show.image.medium;
+      favObject.id = show.show.id;
+      console.log(favObject);
+    }
   }
   // const img = ev.currentTarget.querySelector('.js-item-result-img');
 

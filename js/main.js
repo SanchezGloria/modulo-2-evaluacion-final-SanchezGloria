@@ -75,49 +75,34 @@ function selectSerie(ev) {
   ev.currentTarget.classList.toggle('js-selected');
 
   // se me añade la última y se acumula en cada click la anterior más la siguiente
+  let serieIndex = seriesArray.findIndex(serie => serie.show.id === clickedId);
   let favindex = favoritesArray.findIndex(serie => serie.id === clickedId);
   if (favindex === -1) {
-    for (const show of seriesArray) {
-      favObject.favname = show.show.name;
-      favObject.favimg = show.show.image.medium;
-      favObject.id = show.show.id;
-      console.log(favObject);
+    favObject.favname = seriesArray[serieIndex].show.name;
+    if (seriesArray[serieIndex].show.image === null) {
+      favObject.favimg = 'https://via.placeholder.com/210x295/ffffff/666666/?';
+    } else {
+      favObject.favimg = seriesArray[serieIndex].show.image.medium;
     }
-
+    favObject.id = seriesArray[serieIndex].show.id;
     favoritesArray.push(favObject);
-    // const img = ev.currentTarget.querySelector('.js-item-result-img');
-
-    // ESTO LO TENGO QUE SACAR DEL SERIESARRAY
-
     console.log(favObject);
-
-    paintFavorites();
-
-    // let index = favoritesArray.indexOf(favObject.id);
-    // console.log(favoritesArray);
-    // favList.innerHTML = '';
-    // let htmlCode = `<li class="js-item-result" id="${ev.currentTarget.id}">`;
-    // htmlCode += `<h3 class="js-item-result-title">${ev.currentTarget.firstElementChild.textContent}</h3>`;
-    // // htmlCode += `<img class="js-item-result-img" src="${show.show.image.medium}" alt="${show.show.name}"></li>`;
-    // // // console.log('SHOW', results);
-    // favList.innerHTML += htmlCode;
-
-    // favList.innerHTML += show.show.name;
+    paintFavorite(favObject);
   } else {
+    // LO SACA DEL ARRAY PERO AÚN ESTÁ PINTADO EN FAVORITOS. HAY QUE BORRARLO
+
     favoritesArray.splice(favindex, 1);
   }
   console.log(favoritesArray);
 }
 
-function paintFavorites() {
+function paintFavorite(item) {
   // console.log(favoritesArray);
   // favList.innerHTML = '';
-  for (const item of favoritesArray) {
-    let htmlCode = `<li class="js-item-result">`;
-    htmlCode += `<h3 class="js-item-result-title">${item.favname}</h3>`;
-    htmlCode += `<img class="js-item-result-img" src="${item.favimg}" alt="${item.favname}"></li>`;
-    favList.innerHTML += htmlCode;
-  }
+  let htmlCode = `<li class="js-item-result" id="${'fav' + item.id}">`;
+  htmlCode += `<h3 class="js-item-result-title">${item.favname}</h3>`;
+  htmlCode += `<img class="js-item-result-img" src="${item.favimg}" alt="${item.favname}"></li>`;
+  favList.innerHTML += htmlCode;
 }
 
 function selectFavorite() {

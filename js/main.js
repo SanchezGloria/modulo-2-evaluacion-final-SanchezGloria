@@ -22,6 +22,7 @@ const getFromLocalStorage = () => {
     }
   }
 };
+
 // HACEMOS EL FETCH EN EL API PARA TENER NUESTRA LISTA DE SERIES
 
 function getFromApi(ev) {
@@ -32,28 +33,23 @@ function getFromApi(ev) {
       // console.log(data[0].show.name);
       seriesArray = data;
       console.log('EN EL FETCH', seriesArray);
-
-      // for (const show of data) {
-      //   seriesArray = show.show;
-      //   // console.log('EN EL FOR DEL FETCH', seriesArray);
-      //   // console.log(show.show.name);
-      //   // console.log(show.show.image.original);
-      //   // seriesArray.push(show.show.name);
-      //   // seriesArray.push(show.show.image.original);
-      // }
       paintResultSeries();
     });
 }
 
-// FUNCIÓN PARA PINTAR RESULTADOS DE SERIES SERIES
+// FUNCIÓN PARA PINTAR RESULTADOS DE SERIES
 
 function paintResultSeries() {
   console.log('PAINT RESULTS', seriesArray);
-  // const series = document.querySelectorAll('.js-item-result');
   resultList.innerHTML = '';
   for (const show of seriesArray) {
-    // console.log(show.show.image.original);
-    let htmlCode = `<li class="js-item-result" id="${show.show.id}">`;
+    let htmlCode;
+    let favIndex = favoritesArray.findIndex(serie => serie.id === show.show.id);
+    if (favIndex === -1) {
+      htmlCode = `<li class="js-item-result" id="${show.show.id}">`;
+    } else {
+      htmlCode = `<li class="js-item-result js-selected" id="${show.show.id}">`;
+    }
     htmlCode += `<h3 class="js-item-result-title">${show.show.name}</h3>`;
     if (show.show.image === null) {
       htmlCode += `<img class="js-item-result-img" src="https://via.placeholder.com/210x295/ffffff/666666/?" alt="${show.show.name}"></li>`;
@@ -64,17 +60,15 @@ function paintResultSeries() {
     resultList.innerHTML += htmlCode;
   }
   selectFavorite();
-
-  // selectSerie();
 }
+
+// FUNCIÓN PARA HACER TOGGLE, CREAR OBJETO GUARDAR/BORRAR EN FAVS
 
 function selectSerie(ev) {
   console.log('currentTarget', ev.currentTarget);
   console.log(ev.currentTarget.id, seriesArray[0].show.id);
   const clickedId = parseInt(ev.currentTarget.id);
   ev.currentTarget.classList.toggle('js-selected');
-
-  // se me añade la última y se acumula en cada click la anterior más la siguiente
   let serieIndex = seriesArray.findIndex(serie => serie.show.id === clickedId);
   let favIndex = favoritesArray.findIndex(serie => serie.id === clickedId);
   if (favIndex === -1) {
@@ -98,6 +92,8 @@ function selectSerie(ev) {
   setInLocalStorage();
 }
 
+// FUNCIÓN PARA PINTAR FAV
+
 function paintFavorite(item) {
   // console.log(favoritesArray);
   // favList.innerHTML = '';
@@ -108,10 +104,14 @@ function paintFavorite(item) {
   favList.innerHTML += htmlCode;
 }
 
+// FUNCIÓN PARA BORRAR FAV
+
 function removeFavorite(item) {
   let eraseId = document.getElementById('fav' + item.id);
   favList.removeChild(eraseId);
 }
+
+// LISTENERS
 
 function selectFavorite() {
   const series = document.querySelectorAll('.js-item-result');

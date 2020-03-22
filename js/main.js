@@ -13,15 +13,15 @@ let idSerie;
 
 // COGER DEL LOCAL STORAGE
 
-// const getFromLocalStorage = () => {
-//   const favoritesSaved = JSON.parse(localStorage.getItem('favorites'));
-//   if (favoritesSaved !== null) {
-// favoritesArray = favoritesSaved;
-// volver a pintar
-//   }else{
-// getFromApi();
-// };
-
+const getFromLocalStorage = () => {
+  const favoritesSaved = JSON.parse(localStorage.getItem('favorites'));
+  if (favoritesSaved !== null) {
+    favoritesArray = favoritesSaved;
+    for (const item of favoritesArray) {
+      paintFavorite(item);
+    }
+  }
+};
 // HACEMOS EL FETCH EN EL API PARA TENER NUESTRA LISTA DE SERIES
 
 function getFromApi(ev) {
@@ -121,10 +121,6 @@ function selectFavorite() {
   }
 }
 
-// LISTENER BOTÓN INPUT
-
-// buttonElement.addEventListener('click', paintResultSeries);
-
 buttonElement.addEventListener('click', getFromApi);
 
 // GUARDAR EN EL LOCAL STORAGE
@@ -133,4 +129,4 @@ const setInLocalStorage = () => {
   localStorage.setItem('favorites', JSON.stringify(favoritesArray));
 };
 
-// setInLocalStorage();
+getFromLocalStorage();
